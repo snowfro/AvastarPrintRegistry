@@ -4,7 +4,7 @@ class SetConstants extends React.Component {
 
   componentDidMount() {
     const { drizzle } = this.props;
-    const contract = drizzle.contracts.KOPrintRegistry;
+    const contract = drizzle.contracts.AvastarPrintRegistry;
 
     const pricePerPrintInWei = contract.methods["pricePerPrintInWei"].cacheCall();
     const pricePerPrintIntlShipInWei = contract.methods["pricePerPrintIntlShipInWei"].cacheCall();

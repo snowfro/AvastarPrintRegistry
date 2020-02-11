@@ -8,11 +8,11 @@ import Purchase from "./purchase";
 class App extends Component {
   constructor(props){
   super(props);
-  this.state = { loading: true, drizzleState: null, welcomeState: 0, contactMethod: '', artId:null, tokenURIKey:null};
+  this.state = { loading: true, drizzleState: null, welcomeState: 0, contactMethod: '', avastarId:null, tokenSVG:null};
   this.handleWelcomeChange = this.handleWelcomeChange.bind(this);
   this.addContactMethod = this.addContactMethod.bind(this);
-  this.setArtId = this.setArtId.bind(this);
-  this.setTokenURIKey = this.setTokenURIKey.bind(this);
+  this.setAvastarId = this.setAvastarId.bind(this);
+  this.setTokenSVG = this.setTokenSVG.bind(this);
 }
   componentDidMount() {
 
@@ -34,15 +34,15 @@ class App extends Component {
     //
   }
 
-setTokenURIKey(value){
-  this.setState({tokenURIKey:value});
+setTokenSVG(value){
+  this.setState({tokenSVG:value});
 }
 
 handleWelcomeChange(value){
   const newWelcomeState = this.state.welcomeState+value;
   this.setState({welcomeState:newWelcomeState});
   if (this.state.welcomeState===2){
-    this.setState({contactMethod: '', artId: null});
+    this.setState({contactMethod: '', avastarId: null});
   }
 }
 
@@ -50,8 +50,8 @@ addContactMethod(contactMethod){
   this.setState({contactMethod:contactMethod});
 }
 
-setArtId(artId){
-  this.setState({artId:artId});
+setAvastarId(avastarId){
+  this.setState({avastarId:avastarId});
 }
 
 
@@ -80,10 +80,10 @@ render(){
       handleWelcomeChange={this.handleWelcomeChange}
       addContactMethod = {this.addContactMethod}
       contactMethod = {this.state.contactMethod}
-      setArtId={this.setArtId}
-      artId = {this.state.artId}
-      setTokenURIKey={this.setTokenURIKey}
-      tokenURIKey={this.state.tokenURIKey}
+      setAvastarId={this.setAvastarId}
+      avastarId = {this.state.avastarId}
+      setTokenSVG={this.setTokenSVG}
+      tokenSVG={this.state.tokenSVG}
     />
   </div>
   )
@@ -91,12 +91,12 @@ render(){
   return (
     <div>
     <Purchase
-    artId={this.state.artId}
+    avastarId={this.state.avastarId}
     contactMethod={this.state.contactMethod}
     drizzle={this.props.drizzle}
     drizzleState={this.state.drizzleState}
     handleWelcomeChange={this.handleWelcomeChange}
-    tokenURIKey={this.state.tokenURIKey}
+    tokenSVG={this.state.tokenSVG}
     />
     </div>
   )

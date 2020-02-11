@@ -47,7 +47,7 @@ handleStartOver(){
 
 handlePurchase(purchaseType){
   const { drizzle, drizzleState } = this.props;
-  const contract = drizzle.contracts.KOPrintRegistry;
+  const contract = drizzle.contracts.AvastarPrintRegistry;
   let purchaseFunc='';
 
   if (purchaseType === 'pricePerPrintInWei' || purchaseType === 'pricePerPrintIntlShipInWei'){
@@ -60,11 +60,11 @@ handlePurchase(purchaseType){
 
 console.log("type: "+purchaseType + " Func: "+ purchaseFunc);
 
-  const determineAmount = drizzleState.contracts.KOPrintRegistry[purchaseType];
+  const determineAmount = drizzleState.contracts.AvastarPrintRegistry[purchaseType];
   const amountToSend = determineAmount['0x0'].value;
-  console.log("sending "+ amountToSend + "contact "+this.props.contactMethod + "Art " + this.props.artId+ "using: "+ purchaseFunc);
+  console.log("sending "+ amountToSend + "contact "+this.props.contactMethod + "Avastar " + this.props.avastarId+ "using: "+ purchaseFunc);
 
-  const stackId = contract.methods[purchaseFunc].cacheSend(this.props.artId,this.props.contactMethod, {
+  const stackId = contract.methods[purchaseFunc].cacheSend(this.props.avastarId,this.props.contactMethod, {
     from: drizzleState.accounts[0],
     value: amountToSend
   });
@@ -105,43 +105,43 @@ getTokenId(){
   render(){
     const {contracts} = this.props.drizzle;
 
-    const { KOPrintRegistry } = this.props.drizzleState.contracts;
+    const { AvastarPrintRegistry } = this.props.drizzleState.contracts;
     const purchaseType = this.findPrice();
     console.log(contracts);
     console.log(this.props.drizzleState);
     //console.log(KOPrintRegistry);
     //console.log(this.findPrice());
 
-    const pricePerPrintInWei = KOPrintRegistry.pricePerPrintInWei['0x0'];
-    const pricePerPrintIntlShipInWei = KOPrintRegistry.pricePerPrintIntlShipInWei['0x0'];
-    const pricePerNFCInWei = KOPrintRegistry.pricePerNFCInWei['0x0'];
-    const pricePerNFCIntlShipInWei = KOPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
-    const pricePerMiscInWei = KOPrintRegistry.pricePerMiscInWei['0x0'];
-    const pricePerMiscIntlShipInWei = KOPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
+    const pricePerPrintInWei = AvastarPrintRegistry.pricePerPrintInWei['0x0'];
+    const pricePerPrintIntlShipInWei = AvastarPrintRegistry.pricePerPrintIntlShipInWei['0x0'];
+    const pricePerNFCInWei = AvastarPrintRegistry.pricePerNFCInWei['0x0'];
+    const pricePerNFCIntlShipInWei = AvastarPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
+    const pricePerMiscInWei = AvastarPrintRegistry.pricePerMiscInWei['0x0'];
+    const pricePerMiscIntlShipInWei = AvastarPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
 
     let priceObject = {pricePerPrintInWei: pricePerPrintInWei, pricePerPrintIntlShipInWei:pricePerPrintIntlShipInWei,pricePerNFCInWei:pricePerNFCInWei,pricePerNFCIntlShipInWei:pricePerNFCIntlShipInWei,pricePerMiscInWei:pricePerMiscInWei, pricePerMiscIntlShipInWei:pricePerMiscIntlShipInWei};
     //if (this.findPrice()){ console.log("being bought: "+ this.findPrice());}
     let status = this.getStatus();
     let tokenId = this.getTokenId();
-    let url = "http://kopr.artblocks.io/details/";
+    let url = "http://apr.artblocks.io/details/";
     if (tokenId) {
       url = url+tokenId;
     }
 
     const {drizzleState} = this.props;
-    const contract = drizzleState.contracts.KOPrintRegistry;
+    const contract = drizzleState.contracts.AvastarPrintRegistry;
 
     return (
       <div>
-      <h1>Known Origin Art Print Registry Purchase Page</h1>
+      <h1>Avastars Print Registry Purchase Page</h1>
       <br />
-      <h4>Almost there! Now you will choose your purchase options and complete the transaction for Edition #{this.props.artId}.</h4>
+      <h4>Almost there! Now you will choose your purchase options and complete the transaction for Avastar #{this.props.avastarId}.</h4>
     <Canvas
-    imageURI = {contract.getKOTokenURI[this.props.tokenURIKey].value}
+    svg = {contract.renderAvastar[this.props.tokenSVG].value}
     />
     <br />
     <br />
-    <p>There are two ways to proceed. You may purchase an up to 13"x19" (33x48.25cm) high quality digital print with attached authentication NFC
+    <p>There are two ways to proceed. You may purchase a 12"x12" (30.5x30.5cm) high quality digital print with attached authentication NFC
     or if you already have a nice print you can simply buy the NFC sticker for authentications. Please select one:</p>
     <label><input type="radio" name="purchaseType" value="Print + NFC" onChange={this.handleTypeRadio} />Purchase Print+NFC</label><br />
     <label><input type="radio" name="purchaseType" value="NFC Only" onChange={this.handleTypeRadio} />Purchase NFC Only</label>

@@ -8,23 +8,23 @@ class GetInfo extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
-    this.handleArtIdChange = this.handleArtIdChange.bind(this);
-    this.getURI = this.getURI.bind(this);
+    this.handleAvastarIdChange = this.handleAvastarIdChange.bind(this);
+    this.getSVG = this.getSVG.bind(this);
 
   }
 
-  handleArtIdChange(event){
-      this.props.setArtId(event.target.value);
+  handleAvastarIdChange(event){
+      this.props.setAvastarId(event.target.value);
 
   }
 
 
 
-  getURI(){
+  getSVG(){
     const {drizzle} = this.props;
-    const contract = drizzle.contracts.KOPrintRegistry;
-    let uriDataKey = contract.methods['getKOTokenURI'].cacheCall(this.props.artId);
-    this.props.setTokenURIKey(uriDataKey);
+    const contract = drizzle.contracts.AvastarPrintRegistry;
+    let svgDataKey = contract.methods['renderAvastar'].cacheCall(this.props.avastarId);
+    this.props.setTokenSVG(svgDataKey);
 
   }
 
@@ -43,7 +43,7 @@ class GetInfo extends React.Component {
 
     this.setState({stage: this.state.stage+1});
     if (this.state.stage===2){
-      this.getURI();}
+      this.getSVG();}
 
     if (this.state.stage>2){
 
@@ -61,15 +61,15 @@ render(){
 
 
 const {drizzleState} = this.props;
-const contract = drizzleState.contracts.KOPrintRegistry;
+const contract = drizzleState.contracts.AvastarPrintRegistry;
 console.log(contract);
-console.log('URIKEY '+this.props.tokenURIKey);
-console.log('art '+this.props.artId);
+console.log('SVGKEY '+this.props.tokenSVG);
+console.log('avastar '+this.props.avastarId);
 
 
   return (
     <div>
-    <h1>Known Origin Art Registry Store</h1>
+    <h1>Avastar Registry Store</h1>
     <br />
     <h4>Step 1: Provide Contact Method</h4>
     <br />
@@ -89,31 +89,31 @@ console.log('art '+this.props.artId);
     {this.state.stage>1 &&
       <div>
         <br />
-        <h4>Step 2: Choose Your Artwork</h4>
+        <h4>Step 2: Choose Your Avastar</h4>
         <br />
-        <p>Great! Now we need to choose a Known Origin work. Please type in your Edition Number in the box below and click "next step".</p>
+        <p>Great! Now we need to choose your Avastar. Please type in your Avastar TokenId in the box below and click "next step".</p>
         <br />
-        <input type="number" id="artIdField" disabled={this.state.stage>2} onChange={this.handleArtIdChange.bind(this)} />
+        <input type="number" id="avastarIdField" disabled={this.state.stage>2} onChange={this.handleAvastarIdChange.bind(this)} />
       </div>}
 
         {this.state.stage>2 &&
           <div>
-          <h4>Step 3: Verify Artwork</h4>
+          <h4>Step 3: Verify Avastar</h4>
           <br />
-          <p>Is this your art? If so click "CONFIRM" below to go to purchase options.</p>
+          <p>Is this your Avastar? If so click "CONFIRM" below to go to purchase options.</p>
 
 
-          {contract.getKOTokenURI[this.props.tokenURIKey] &&
+          {contract.renderAvastar[this.props.tokenSVG] &&
             <div>
         <Canvas
-        imageURI = {contract.getKOTokenURI[this.props.tokenURIKey].value}
+        svg = {contract.renderAvastar[this.props.tokenSVG].value}
         />
         </div>}
         </div>
       }
 
     <br />
-    <button onClick = {this.handleBackClick} disabled={this.state.stage>1?false:true} className={this.state.stage>1?null:"hidden"}>Previous Step</button><button onClick = {this.handleNextClick} disabled={!this.props.artId&&this.state.stage>1?true:false} >{this.state.stage>2?"CONFIRM":"Next Step"}</button>
+    <button onClick = {this.handleBackClick} disabled={this.state.stage>1?false:true} className={this.state.stage>1?null:"hidden"}>Previous Step</button><button onClick = {this.handleNextClick} disabled={!this.props.avastarId&&this.state.stage>1?true:false} >{this.state.stage>2?"CONFIRM":"Next Step"}</button>
     <br />
     <br />
     <br />

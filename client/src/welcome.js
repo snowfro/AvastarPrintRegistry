@@ -6,18 +6,18 @@ class Welcome extends React.Component {
 
     return (
       <div>
-      <h1> Welcome to the Known Origin Artwork Print Registry Store </h1>
+      <h1> Welcome to the Avastars Print Registry Store </h1>
       <br />
-      <h4>Here you'll be able to purchase authentication for your <a href="https://www.knownorigin.io">Known Origin Artwork.</a></h4>
+      <h4>Here you'll be able to purchase authentication for your <a href="https://www.avastars.io">Avastar.</a></h4>
       <br />
       <p>There are two purchase options to choose from:</p>
       <br />
       <ul>
-      <li>A 12"x12" (or smaller) high quality print of your artwork with authentication NFC. </li>
+      <li>A 12"x12" (or smaller) high quality print of your Avastar with authentication NFC. </li>
       <li>An authentication NFC sticker that you can attatch to a print you already have. </li>
       </ul>
       <br />
-      <p>You will be transacting directly through the KO Artwork Print Registry Smart Contract. In other words,
+      <p>You will be transacting directly through the Avastar Print Registry Smart Contract. In other words,
       the storefront itself is a smart contract. In order to purchase an artwork print or NFC, <b>you must have ownership
       of that artwork in the Ethereum address <i>that you send the funds from</i></b>.</p>
       <br />

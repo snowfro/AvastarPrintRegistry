@@ -4,9 +4,9 @@ import "./index.css";
 import App from "./App";
 // import drizzle functions and contract artifact
 import { Drizzle, generateStore } from "drizzle";
-import KOPrintRegistry from "./contracts/KOPrintRegistry.json";
+import AvastarPrintRegistry from "./contracts/AvastarPrintRegistry.json";
 // let drizzle know what contracts we want
-const options = { contracts: [KOPrintRegistry] };
+const options = { contracts: [AvastarPrintRegistry] };
 // setup the drizzle store and drizzle
 const drizzleStore = generateStore(options);
 const drizzle = new Drizzle(options, drizzleStore);

@@ -7,14 +7,14 @@ class PriceList extends React.Component {
 
   render(){
 
-    const { KOPrintRegistry } = this.props.drizzleState.contracts;
+    const { AvastarPrintRegistry } = this.props.drizzleState.contracts;
 
-    const pricePerPrintInWei = KOPrintRegistry.pricePerPrintInWei['0x0'];
-    const pricePerPrintIntlShipInWei = KOPrintRegistry.pricePerPrintIntlShipInWei['0x0'];
-    const pricePerNFCInWei = KOPrintRegistry.pricePerNFCInWei['0x0'];
-    const pricePerNFCIntlShipInWei = KOPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
-    //const pricePerMiscInWei = KOPrintRegistry.pricePerMiscInWei['0x0'];
-    //const pricePerMiscIntlShipInWei = KOPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
+    const pricePerPrintInWei = AvastarPrintRegistry.pricePerPrintInWei['0x0'];
+    const pricePerPrintIntlShipInWei = AvastarPrintRegistry.pricePerPrintIntlShipInWei['0x0'];
+    const pricePerNFCInWei = AvastarPrintRegistry.pricePerNFCInWei['0x0'];
+    const pricePerNFCIntlShipInWei = AvastarPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
+    //const pricePerMiscInWei = AvastarPrintRegistry.pricePerMiscInWei['0x0'];
+    //const pricePerMiscIntlShipInWei = AvastarPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
 
 
     return (
