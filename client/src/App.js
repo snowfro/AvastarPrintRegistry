@@ -4,15 +4,19 @@ import './App.css';
 import WelcomeScreen from "./welcomeScreen";
 import GetInfo from "./getInfo";
 import Purchase from "./purchase";
+import SetConstants from "./setConstants";
 
 class App extends Component {
   constructor(props){
   super(props);
-  this.state = { loading: true, drizzleState: null, welcomeState: 0, contactMethod: '', avastarId:null, tokenSVG:null};
+  this.state = { loading: true, drizzleState: null, welcomeState: 0, contactMethod: '', avastarId:null, tokenSVG:null, creditsToUseKey:null, creditsToGiveKey:null, creditToAddress:null};
   this.handleWelcomeChange = this.handleWelcomeChange.bind(this);
   this.addContactMethod = this.addContactMethod.bind(this);
   this.setAvastarId = this.setAvastarId.bind(this);
   this.setTokenSVG = this.setTokenSVG.bind(this);
+  this.setCreditsToUseKey = this.setCreditsToUseKey.bind(this);
+  this.setCreditsToGiveKey = this.setCreditsToGiveKey.bind(this);
+  this.setCreditToAddress = this.setCreditToAddress.bind(this);
 }
   componentDidMount() {
 
@@ -33,6 +37,18 @@ class App extends Component {
     this.unsubscribe();
     //
   }
+
+setCreditToAddress(value){
+  this.setState({creditToAddress:value});
+}
+
+setCreditsToUseKey(value){
+  this.setState({creditsToUseKey:value});
+}
+
+setCreditsToGiveKey(value){
+  this.setState({creditsToGiveKey:value});
+}
 
 setTokenSVG(value){
   this.setState({tokenSVG:value});
@@ -63,11 +79,22 @@ render(){
 
   if (this.state.welcomeState===0){
   return(
+
     <div className="App">
       <WelcomeScreen
       drizzle={this.props.drizzle}
       drizzleState={this.state.drizzleState}
       handleWelcomeChange={this.handleWelcomeChange}
+      creditsToUseKey = {this.state.creditsToUseKey}
+      creditsToGiveKey = {this.state.creditsToGiveKey}
+      setCreditToAddress = {this.setCreditToAddress}
+      creditToAddress = {this.state.creditToAddress}
+      />
+      <SetConstants
+      drizzle={this.props.drizzle}
+      drizzleState={this.state.drizzleState}
+      setCreditsToUseKey = {this.setCreditsToUseKey}
+      setCreditsToGiveKey = {this.setCreditsToGiveKey}
       />
       </div>
     )
@@ -84,6 +111,8 @@ render(){
       avastarId = {this.state.avastarId}
       setTokenSVG={this.setTokenSVG}
       tokenSVG={this.state.tokenSVG}
+      creditsToUseKey = {this.state.creditsToUseKey}
+      creditsToGiveKey = {this.state.creditsToGiveKey}
     />
   </div>
   )
@@ -97,6 +126,8 @@ render(){
     drizzleState={this.state.drizzleState}
     handleWelcomeChange={this.handleWelcomeChange}
     tokenSVG={this.state.tokenSVG}
+    creditsToUseKey = {this.state.creditsToUseKey}
+    creditsToGiveKey = {this.state.creditsToGiveKey}
     />
     </div>
   )

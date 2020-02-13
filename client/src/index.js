@@ -5,8 +5,9 @@ import App from "./App";
 // import drizzle functions and contract artifact
 import { Drizzle, generateStore } from "drizzle";
 import AvastarPrintRegistry from "./contracts/AvastarPrintRegistry.json";
+import AvastarPrintRegistryMinter from "./contracts/AvastarPrintRegistryMinter.json";
 // let drizzle know what contracts we want
-const options = { contracts: [AvastarPrintRegistry] };
+const options = { contracts: [AvastarPrintRegistry,AvastarPrintRegistryMinter] };
 // setup the drizzle store and drizzle
 const drizzleStore = generateStore(options);
 const drizzle = new Drizzle(options, drizzleStore);

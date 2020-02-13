@@ -1,10 +1,12 @@
 
 /**************
  * A registry of provably authentic physical prints and authentication NFCs of the Avastars
- * (https://avastars.io) project. In order to purchase a print or NFC you must be able to prove ownership of the
+ * (https://avastars.io) project.
+ *
+ * In order to purchase a print or NFC you must be able to prove ownership of the
  * Avastar. This is done by sending payment for the print or NFC from the account address that
- * holds the Avastar itself. There are three types of purchase. One is a digital print
- * of your Avastar accompanied by an authentication NFC. You may also
+ * holds the Avastar itself. There are three types of purchases. One is a high quality digital
+ * print of your Avastar accompanied by an authentication NFC. You may also
  * purchase the NFC by itself if you want to print your own Avastar. There is a Misc purchase
  * option as well for a potential future item added to the store.
  *

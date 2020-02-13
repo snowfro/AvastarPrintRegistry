@@ -1,5 +1,5 @@
 import React from 'react';
-import Canvas from './canvas2';
+import Canvas from './canvas';
 
 class GetInfo extends React.Component {
   constructor(props){
@@ -23,7 +23,7 @@ class GetInfo extends React.Component {
   getSVG(){
     const {drizzle} = this.props;
     const contract = drizzle.contracts.AvastarPrintRegistry;
-    let svgDataKey = contract.methods['renderAvastar'].cacheCall(this.props.avastarId);
+    let svgDataKey = contract.methods['renderAvastarTokenSVG'].cacheCall(this.props.avastarId);
     this.props.setTokenSVG(svgDataKey);
 
   }
@@ -62,9 +62,11 @@ render(){
 
 const {drizzleState} = this.props;
 const contract = drizzleState.contracts.AvastarPrintRegistry;
-console.log(contract);
+console.log(drizzleState);
 console.log('SVGKEY '+this.props.tokenSVG);
 console.log('avastar '+this.props.avastarId);
+console.log('credits to use: '+this.props.creditsToUseKey);
+console.log('credits to give: '+this.props.creditsToGiveKey);
 
 
   return (
@@ -102,13 +104,14 @@ console.log('avastar '+this.props.avastarId);
           <br />
           <p>Is this your Avastar? If so click "CONFIRM" below to go to purchase options.</p>
 
+                    {contract.renderAvastarTokenSVG[this.props.tokenSVG] &&
+                      <div>
+                  <Canvas
+                  tokenSVG = {contract.renderAvastarTokenSVG[this.props.tokenSVG].value}
 
-          {contract.renderAvastar[this.props.tokenSVG] &&
-            <div>
-        <Canvas
-        svg = {contract.renderAvastar[this.props.tokenSVG].value}
-        />
-        </div>}
+                  />
+                  </div>}
+
         </div>
       }
 

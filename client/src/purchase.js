@@ -1,5 +1,5 @@
 import React from 'react';
-import Canvas from './canvas2';
+import Canvas from './canvas';
 import Web3 from 'web3';
 const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
@@ -46,8 +46,10 @@ handleStartOver(){
   }
 
 handlePurchase(purchaseType){
+  let stackId;
   const { drizzle, drizzleState } = this.props;
-  const contract = drizzle.contracts.AvastarPrintRegistry;
+  const contract1 = drizzle.contracts.AvastarPrintRegistry;
+  const contract2 = drizzle.contracts.AvastarPrintRegistryMinter;
   let purchaseFunc='';
 
   if (purchaseType === 'pricePerPrintInWei' || purchaseType === 'pricePerPrintIntlShipInWei'){
@@ -64,10 +66,20 @@ console.log("type: "+purchaseType + " Func: "+ purchaseFunc);
   const amountToSend = determineAmount['0x0'].value;
   console.log("sending "+ amountToSend + "contact "+this.props.contactMethod + "Avastar " + this.props.avastarId+ "using: "+ purchaseFunc);
 
-  const stackId = contract.methods[purchaseFunc].cacheSend(this.props.avastarId,this.props.contactMethod, {
-    from: drizzleState.accounts[0],
-    value: amountToSend
-  });
+  const creditPurchaseConcat = purchaseFunc + " | " + this.props.contactMethod;
+  const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
+
+  if (creditsToUse && creditsToUse.value>0){
+    stackId = contract2.methods['mint'].cacheSend(this.props.avastarId,creditPurchaseConcat, {
+      from: drizzleState.accounts[0],
+      value: 0
+    });
+  } else {
+    stackId = contract1.methods[purchaseFunc].cacheSend(this.props.avastarId,this.props.contactMethod, {
+      from: drizzleState.accounts[0],
+      value: amountToSend
+    });
+  }
   // save the `stackId` for later reference
   this.setState({ stackId });
 };
@@ -131,14 +143,21 @@ getTokenId(){
     const {drizzleState} = this.props;
     const contract = drizzleState.contracts.AvastarPrintRegistry;
 
+    const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
+
+    if(creditsToUse){
+      console.log('ctu: '+creditsToUse.value);
+    }
+
     return (
       <div>
       <h1>Avastars Print Registry Purchase Page</h1>
       <br />
       <h4>Almost there! Now you will choose your purchase options and complete the transaction for Avastar #{this.props.avastarId}.</h4>
     <Canvas
-    svg = {contract.renderAvastar[this.props.tokenSVG].value}
+    tokenSVG = {contract.renderAvastarTokenSVG[this.props.tokenSVG].value}
     />
+
     <br />
     <br />
     <p>There are two ways to proceed. You may purchase a 12"x12" (30.5x30.5cm) high quality digital print with attached authentication NFC
@@ -157,17 +176,18 @@ getTokenId(){
       <div>
       <h4>Shiping Type: {this.state.shipType}</h4>
       <br />
-      <h4>Total: {priceObject[this.findPrice()] && (web3.utils.fromWei(priceObject[this.findPrice()].value.toString(), 'ether'))}Ξ</h4>
+      <h4>Total: {creditsToUse && creditsToUse.value>0 ? 'FRE' : priceObject[this.findPrice()] && (web3.utils.fromWei(priceObject[this.findPrice()].value.toString(), 'ether'))}Ξ</h4>
       <br />
       <br />
       <button className = "bigButton" disabled = {status?true:false} onClick={() => {this.handlePurchase(purchaseType)}}>{status?status:'Purchase'}</button>
       {status === 'success' &&
     <div>
     <h1>Congrats!</h1>
+    <br />
     <h4>Your transaction is complete! Please reach out to info@artblocks.io or Snowfro#8886 on Discord using the recorded contact method
     so we can get your package to you ASAP.</h4>
     <br />
-    <h4>Your Print Registry TokenId for this transaction is {tokenId}. You can visit your authentication
+    <h4>Your Avastars Print Registry TokenId for this transaction is {tokenId}. You can visit your authentication
     page at <a href={url}>{url}</a>. Note that the NFC ID will be set manually at time of printing.</h4>
     <br />
     <p> You will be provided with a tracking number once your package has shipped. Please allow 1-2 weeks for delivery.</p>

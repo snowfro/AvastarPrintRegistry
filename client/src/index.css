@@ -18,7 +18,7 @@ button {
 input {
   position: relative;
   left: 20px;
-  width:150px;
+  width:300px;
 }
 
 ul {
@@ -29,6 +29,11 @@ ul {
 
 div {
   padding-top:10px;
+
+}
+
+.highlight {
+  background-color: #24b2ff;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -48,4 +53,20 @@ code {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+.bigButton2 {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 3px 3px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.addressField {
+  position:relative;
+  left:100;
+  width:300px;
 }

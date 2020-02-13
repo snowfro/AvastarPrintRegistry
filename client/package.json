@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "https://www.projectonthemoon.com/avastarprintapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

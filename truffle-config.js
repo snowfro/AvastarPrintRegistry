@@ -48,6 +48,12 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
      },
 
+     main: {
+       host: "localhost",
+       port:8545,
+       network_id: 1,
+     }
+
     // Another network with more advanced options...
     // advanced: {
       // port: 8777,             // Custom port
