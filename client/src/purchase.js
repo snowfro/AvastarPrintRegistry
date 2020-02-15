@@ -6,7 +6,7 @@ const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 class Purchase extends React.Component{
   constructor(props){
   super(props);
-  this.state = {purchaseType:null, shipType:null, stackId:null}
+  this.state = {purchaseType:null, shipType:null, stackId:null, creditSale:false, funcCalled:false}
   this.handleTypeRadio = this.handleTypeRadio.bind(this);
   this.handleShipRadio = this.handleShipRadio.bind(this);
   this.handleGoBack = this.handleGoBack.bind(this);
@@ -64,12 +64,13 @@ console.log("type: "+purchaseType + " Func: "+ purchaseFunc);
 
   const determineAmount = drizzleState.contracts.AvastarPrintRegistry[purchaseType];
   const amountToSend = determineAmount['0x0'].value;
-  console.log("sending "+ amountToSend + "contact "+this.props.contactMethod + "Avastar " + this.props.avastarId+ "using: "+ purchaseFunc);
+  //console.log("sending "+ amountToSend + "contact "+this.props.contactMethod + "Avastar " + this.props.avastarId+ "using: "+ purchaseFunc);
 
   const creditPurchaseConcat = purchaseFunc + " | " + this.props.contactMethod;
   const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
 
   if (creditsToUse && creditsToUse.value>0){
+    this.setState({creditSale:true})
     stackId = contract2.methods['mint'].cacheSend(this.props.avastarId,creditPurchaseConcat, {
       from: drizzleState.accounts[0],
       value: 0
@@ -111,6 +112,33 @@ getTokenId(){
 }
 }
 
+/*
+getTokenIdCreditSale(){
+  const {transactions, transactionStack } = this.props.drizzleState;
+  const txHash = transactionStack[this.state.stackId];
+  const { drizzleState, drizzle } = this.props;
+
+
+
+  if (!txHash) return null;
+  if (transactions[txHash]){
+    if (transactions[txHash].status==='success' ){
+      console.log('TRIGGER');
+    const tokensOfOwnerIndex = drizzle.contracts.AvastarPrintRegistry.methods['tokensOfOwner'].cacheCall(drizzleState.accounts[0]);
+    this.setState({funcCalled: true, tokensOfOwnerIndex:tokensOfOwnerIndex});
+      console.log('index'+ this.state.tokensOfOwnerIndex);
+      return tokensOfOwnerIndex;
+          } else {
+            console.log('nothing2 yet');
+            return null;
+          }
+      } else {
+    console.log('nothing yet');
+    return null;
+  }
+}
+*/
+
 
 
 
@@ -130,11 +158,31 @@ getTokenId(){
     const pricePerNFCIntlShipInWei = AvastarPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
     const pricePerMiscInWei = AvastarPrintRegistry.pricePerMiscInWei['0x0'];
     const pricePerMiscIntlShipInWei = AvastarPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
+    /*
+    const tokensOfOwner = AvastarPrintRegistry.tokensOfOwner[this.props.tokensOfOwnerKey];
+
+    if (tokensOfOwner){
+      console.log('too '+Math.max.apply(null,tokensOfOwner.value));
+    } else {
+      console.log('I render and nothign here');
+    }
+*/
 
     let priceObject = {pricePerPrintInWei: pricePerPrintInWei, pricePerPrintIntlShipInWei:pricePerPrintIntlShipInWei,pricePerNFCInWei:pricePerNFCInWei,pricePerNFCIntlShipInWei:pricePerNFCIntlShipInWei,pricePerMiscInWei:pricePerMiscInWei, pricePerMiscIntlShipInWei:pricePerMiscIntlShipInWei};
     //if (this.findPrice()){ console.log("being bought: "+ this.findPrice());}
     let status = this.getStatus();
-    let tokenId = this.getTokenId();
+
+    let tokenId;
+
+    if (this.state.creditSale){
+
+        tokenId= null;
+
+    } else {
+      tokenId = this.getTokenId();
+    }
+
+    console.log('tokenId: '+ tokenId);
     let url = "http://apr.artblocks.io/details/";
     if (tokenId) {
       url = url+tokenId;
@@ -153,7 +201,7 @@ getTokenId(){
       <div>
       <h1>Avastars Print Registry Purchase Page</h1>
       <br />
-      <h4>Almost there! Now you will choose your purchase options and complete the transaction for Avastar #{this.props.avastarId}.</h4>
+      <h4>Almost there! Now choose your purchase options and complete the transaction for Avastar #{this.props.avastarId}.</h4>
     <Canvas
     tokenSVG = {contract.renderAvastarTokenSVG[this.props.tokenSVG].value}
     />
@@ -187,9 +235,13 @@ getTokenId(){
     <h4>Your transaction is complete! Please reach out to info@artblocks.io or Snowfro#8886 on Discord using the recorded contact method
     so we can get your package to you ASAP.</h4>
     <br />
+    {tokenId &&
+      <div>
     <h4>Your Avastars Print Registry TokenId for this transaction is {tokenId}. You can visit your authentication
     page at <a href={url}>{url}</a>. Note that the NFC ID will be set manually at time of printing.</h4>
     <br />
+  </div>
+}
     <p> You will be provided with a tracking number once your package has shipped. Please allow 1-2 weeks for delivery.</p>
 
   </div>

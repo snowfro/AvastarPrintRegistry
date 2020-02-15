@@ -28,7 +28,9 @@ class Welcome extends React.Component {
       the source of shipping information.
       </p>
       <br />
-      <p> This contact method will be deleted after you receive your print or NFC.</p>
+      <p> This contact method can be deleted after you receive your print or NFC.</p>
+      <br />
+      <p> This print registry is operated by Art Blocks, LLC and is not affiliated with or endorsed by the creators of the Avastars project.</p>
       <br />
       </div>
     )

@@ -2,7 +2,7 @@ import React from "react";
 
 class SetConstants extends React.Component {
 
-  
+
 
   componentDidMount() {
     const { drizzle, drizzleState } = this.props;
@@ -20,10 +20,15 @@ class SetConstants extends React.Component {
 
     const creditsToUseKey = contract2.methods['addressToCreditsToSpend'].cacheCall(drizzleState.accounts[0]);
     const creditsToGiveKey = contract2.methods['managerAddressToCreditsToGive'].cacheCall(drizzleState.accounts[0]);
+
+    const owner1Key = contract2.methods['owner1'].cacheCall();
+    const owner2Key = contract2.methods['owner2'].cacheCall();
+
+    const tokensOfOwnerKey = contract1.methods['tokensOfOwner'].cacheCall(drizzleState.accounts[0]);
     //console.log(this.creditsToUseKey, this.creditsToGiveKey);
 
 
-  Promise.all([ pricePerPrintInWei, pricePerPrintIntlShipInWei, pricePerNFCInWei, pricePerNFCIntlShipInWei, pricePerMiscInWei, pricePerMiscIntlShipInWei,creditsToUseKey, creditsToGiveKey ]).then(() => {
+  Promise.all([ pricePerPrintInWei, pricePerPrintIntlShipInWei, pricePerNFCInWei, pricePerNFCIntlShipInWei, pricePerMiscInWei, pricePerMiscIntlShipInWei,creditsToUseKey, creditsToGiveKey, owner1Key, owner2Key, tokensOfOwnerKey]).then(() => {
       //console.log('promises made');
       this.setState({
           pricesLoading : false
@@ -31,6 +36,9 @@ class SetConstants extends React.Component {
       this.props.setCreditsToUseKey(creditsToUseKey);
 
       this.props.setCreditsToGiveKey(creditsToGiveKey);
+      this.props.setOwner1Key(owner1Key);
+      this.props.setOwner2Key(owner2Key);
+      this.props.setTokensOfOwnerKey(tokensOfOwnerKey);
     });
 
 }
