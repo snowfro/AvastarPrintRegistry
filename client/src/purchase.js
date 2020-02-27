@@ -104,40 +104,21 @@ getTokenId(){
   if (!txHash) return null;
   if (transactions[txHash]){
     if (transactions[txHash].status==='success'){
+      if (this.state.creditSale){
+        const newTokenIdHex = transactions[txHash].receipt.events[0].raw.topics[3];
+        const newTokenId = parseInt(newTokenIdHex,16);
+        console.log('newTokenIdMint: ' + newTokenId);
+        return newTokenId;
+      } else {
     const newTokenId = transactions[txHash].receipt.events.Transfer.returnValues[2];
     return newTokenId;
-  } else {
+  }
+} else {
     return null;
   }
 }
 }
 
-/*
-getTokenIdCreditSale(){
-  const {transactions, transactionStack } = this.props.drizzleState;
-  const txHash = transactionStack[this.state.stackId];
-  const { drizzleState, drizzle } = this.props;
-
-
-
-  if (!txHash) return null;
-  if (transactions[txHash]){
-    if (transactions[txHash].status==='success' ){
-      console.log('TRIGGER');
-    const tokensOfOwnerIndex = drizzle.contracts.AvastarPrintRegistry.methods['tokensOfOwner'].cacheCall(drizzleState.accounts[0]);
-    this.setState({funcCalled: true, tokensOfOwnerIndex:tokensOfOwnerIndex});
-      console.log('index'+ this.state.tokensOfOwnerIndex);
-      return tokensOfOwnerIndex;
-          } else {
-            console.log('nothing2 yet');
-            return null;
-          }
-      } else {
-    console.log('nothing yet');
-    return null;
-  }
-}
-*/
 
 
 
@@ -158,31 +139,12 @@ getTokenIdCreditSale(){
     const pricePerNFCIntlShipInWei = AvastarPrintRegistry.pricePerNFCIntlShipInWei['0x0'];
     const pricePerMiscInWei = AvastarPrintRegistry.pricePerMiscInWei['0x0'];
     const pricePerMiscIntlShipInWei = AvastarPrintRegistry.pricePerMiscIntlShipInWei['0x0'];
-    /*
-    const tokensOfOwner = AvastarPrintRegistry.tokensOfOwner[this.props.tokensOfOwnerKey];
 
-    if (tokensOfOwner){
-      console.log('too '+Math.max.apply(null,tokensOfOwner.value));
-    } else {
-      console.log('I render and nothign here');
-    }
-*/
 
     let priceObject = {pricePerPrintInWei: pricePerPrintInWei, pricePerPrintIntlShipInWei:pricePerPrintIntlShipInWei,pricePerNFCInWei:pricePerNFCInWei,pricePerNFCIntlShipInWei:pricePerNFCIntlShipInWei,pricePerMiscInWei:pricePerMiscInWei, pricePerMiscIntlShipInWei:pricePerMiscIntlShipInWei};
     //if (this.findPrice()){ console.log("being bought: "+ this.findPrice());}
     let status = this.getStatus();
-
-    let tokenId;
-
-    if (this.state.creditSale){
-
-        tokenId= null;
-
-    } else {
-      tokenId = this.getTokenId();
-    }
-
-    console.log('tokenId: '+ tokenId);
+    let tokenId = this.getTokenId();
     let url = "http://apr.artblocks.io/details/";
     if (tokenId) {
       url = url+tokenId;
@@ -190,7 +152,6 @@ getTokenIdCreditSale(){
 
     const {drizzleState} = this.props;
     const contract = drizzleState.contracts.AvastarPrintRegistry;
-
     const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
 
     if(creditsToUse){
@@ -235,13 +196,9 @@ getTokenIdCreditSale(){
     <h4>Your transaction is complete! Please reach out to info@artblocks.io or Snowfro#8886 on Discord using the recorded contact method
     so we can get your package to you ASAP.</h4>
     <br />
-    {tokenId &&
-      <div>
     <h4>Your Avastars Print Registry TokenId for this transaction is {tokenId}. You can visit your authentication
     page at <a href={url}>{url}</a>. Note that the NFC ID will be set manually at time of printing.</h4>
     <br />
-  </div>
-}
     <p> You will be provided with a tracking number once your package has shipped. Please allow 1-2 weeks for delivery.</p>
 
   </div>

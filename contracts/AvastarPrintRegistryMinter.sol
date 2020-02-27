@@ -314,13 +314,13 @@ contract AvastarPrintRegistryMinter  {
     // Minting Function         //
     //////////////////////////////
 
-    function mint(uint256 _avastarId, string memory _contactMethodAndType) public returns (bool) {
+    function mint(uint256 _avastarId, string memory _contactMethodAndType) public returns (uint256 _tokenId) {
         uint256 balance = addressToCreditsToSpend[msg.sender];
         require(msg.sender == avastarsContract.ownerOf(_avastarId), "You must own Avastar!");
         require(balance>0, "You must have credits!");
-        aprContract.mint(_avastarId, _contactMethodAndType);
+        uint256 mintedToken = aprContract.mint(_avastarId, _contactMethodAndType);
         addressToCreditsToSpend[msg.sender] --;
-        return true;
+        return mintedToken;
     }
 
     //////////////////////////////
