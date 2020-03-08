@@ -17,8 +17,10 @@ class App extends Component {
     avastarId:null,
     tokenSVG:null,
     creditsToUseKey:null,
+    artCreditsToUse:null,
     creditsToGiveKey:null,
     creditToAddress:null,
+    creditToArt:null,
     owner1Key:null,
     owner2Key:null,
     creditManagerCreditsToGive:null,
@@ -31,8 +33,10 @@ class App extends Component {
   this.setAvastarId = this.setAvastarId.bind(this);
   this.setTokenSVG = this.setTokenSVG.bind(this);
   this.setCreditsToUseKey = this.setCreditsToUseKey.bind(this);
+  this.setArtCreditsToUse = this.setArtCreditsToUse.bind(this);
   this.setCreditsToGiveKey = this.setCreditsToGiveKey.bind(this);
   this.setCreditToAddress = this.setCreditToAddress.bind(this);
+  this.setCreditToArt = this.setCreditToArt.bind(this);
   this.setOwner1Key = this.setOwner1Key.bind(this);
   this.setOwner2Key = this.setOwner2Key.bind(this);
   this.setCreditManagerCreditsToGive = this.setCreditManagerCreditsToGive.bind(this);
@@ -72,9 +76,18 @@ setCreditToAddress(value){
   this.setState({creditToAddress:value});
 }
 
+setCreditToArt(value){
+  this.setState({creditToArt:value});
+}
+
 setCreditsToUseKey(value){
   this.setState({creditsToUseKey:value});
 }
+
+setArtCreditsToUse(value){
+  this.setState({artCreditsToUse:value});
+}
+
 setOwner1Key(value){
   this.setState({owner1Key:value});
 }
@@ -134,7 +147,9 @@ render(){
       creditsToUseKey = {this.state.creditsToUseKey}
       creditsToGiveKey = {this.state.creditsToGiveKey}
       setCreditToAddress = {this.setCreditToAddress}
+      setCreditToArt = {this.setCreditToArt}
       creditToAddress = {this.state.creditToAddress}
+      creditToArt = {this.state.creditToArt}
       setOwner1Key = {this.setOwner1Key}
       setOwner2Key = {this.setOwner2Key}
       owner1Key = {this.state.owner1Key}
@@ -167,6 +182,8 @@ render(){
       contactMethod = {this.state.contactMethod}
       setAvastarId={this.setAvastarId}
       avastarId = {this.state.avastarId}
+      setArtCreditsToUse = {this.setArtCreditsToUse}
+      artCreditsToUse = {this.state.artCreditsToUse}
       setTokenSVG={this.setTokenSVG}
       tokenSVG={this.state.tokenSVG}
       creditsToUseKey = {this.state.creditsToUseKey}
@@ -195,6 +212,7 @@ render(){
     owner2Key = {this.state.owner2Key}
     tokensOfOwnerKey = {this.state.tokensOfOwnerKey}
     address = {this.state.address}
+    artCreditsToUse = {this.state.artCreditsToUse}
     />
     </div>
   )

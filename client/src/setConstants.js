@@ -22,7 +22,7 @@ class SetConstants extends React.Component {
     const creditsToGiveKey = contract2.methods['managerAddressToCreditsToGive'].cacheCall(drizzleState.accounts[0]);
 
     const owner1Key = contract2.methods['owner1'].cacheCall();
-    const owner2Key = contract2.methods['owner2'].cacheCall();
+    const owner2Key = contract2.methods['printerAddress'].cacheCall();
 
     const tokensOfOwnerKey = contract1.methods['tokensOfOwner'].cacheCall(drizzleState.accounts[0]);
     //console.log(this.creditsToUseKey, this.creditsToGiveKey);

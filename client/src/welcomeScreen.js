@@ -8,17 +8,29 @@ class WelcomeScreen extends React.Component {
     this.state = {stackId:null};
     this.handleClick = this.handleClick.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
-    this.handleCreditSendClick = this.handleCreditSendClick.bind(this);
+    this.handleArtToCreditChange = this.handleArtToCreditChange.bind(this);
+    this.handleAddressCreditSendClick = this.handleAddressCreditSendClick.bind(this);
+    this.handleArtCreditSendClick = this.handleArtCreditSendClick.bind(this);
     this.handleCreditSendClick2 = this.handleCreditSendClick2.bind(this);
     this.handleCreditManagerAddressChange = this.handleCreditManagerAddressChange.bind(this);
     this.handleCreditManagerCreditsToGive = this.handleCreditManagerCreditsToGive.bind(this);
 
   }
 
-  handleCreditSendClick(){
+  handleAddressCreditSendClick(){
     const {drizzle, drizzleState} = this.props;
     const contract = drizzle.contracts.AvastarPrintRegistryMinter;
-    const stackId = contract.methods['giveCredit'].cacheSend(this.props.creditToAddress, {
+    const stackId = contract.methods['giveAddressCredit'].cacheSend(this.props.creditToAddress, {
+      from: drizzleState.accounts[0],
+      value: 0
+    });
+    this.setState({ stackId });
+  }
+
+  handleArtCreditSendClick(){
+    const {drizzle, drizzleState} = this.props;
+    const contract = drizzle.contracts.AvastarPrintRegistryMinter;
+    const stackId = contract.methods['giveArtCredit'].cacheSend(this.props.creditToArt, {
       from: drizzleState.accounts[0],
       value: 0
     });
@@ -58,6 +70,10 @@ class WelcomeScreen extends React.Component {
     this.props.setCreditToAddress(event.target.value);
   }
 
+  handleArtToCreditChange(event){
+    this.props.setCreditToArt(event.target.value);
+  }
+
   handleCreditManagerAddressChange(event){
     this.props.setCreditManagerAddressToCredit(event.target.value);
   }
@@ -71,7 +87,7 @@ let isOwner;
 const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
 const creditsToGive = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.managerAddressToCreditsToGive[this.props.creditsToGiveKey];
 const owner1 = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.owner1[this.props.owner1Key];
-const owner2 = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.owner2[this.props.owner2Key];
+const owner2 = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.printerAddress[this.props.owner2Key];
 if(creditsToUse && creditsToGive){
   console.log(creditsToUse.value, creditsToGive.value);
 }
@@ -96,7 +112,7 @@ return(
     <div className="p-3 mb-2 bg-info text-white rounded">
     <div >
 
-    <h1>Assign Credits to Manager</h1>
+    <h1>Assign Print Credits to Manager</h1>
     <br />
 
     <div className="input-group flex-nowrap">
@@ -121,15 +137,17 @@ return(
     <br />
     <br />
 
+
+
     </div>
     </div>
   }
+
   {creditsToGive && creditsToGive.value>0 &&
   <div className="p-3 mb-2 bg-info text-white rounded">
 
-  <h1>You have {creditsToGive} {creditsToGive>1?'credits':'credit'} to give!</h1>
-  <h4>Paste recipient address below and click "Send"</h4>
-
+  {creditsToGive.value>0? <h1>You have {creditsToGive.value} print {creditsToGive.value>1?'credits':'credit'}  to give!</h1>:<h1>Assign Print Credits to User or Avastar</h1>}
+  <h4>You can assign your credits to an address or a specific Avastar.</h4>
   <br />
   <div className="input-group flex-nowrap">
   <div className="input-group-prepend">
@@ -140,16 +158,28 @@ return(
   </div>
 
 
-  <button className="btn btn-primary" onClick={this.handleCreditSendClick} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
+  <button className="btn btn-primary" onClick={this.handleAddressCreditSendClick} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
   <br />
   <br />
+  <div className="input-group flex-nowrap">
+  <div className="input-group-prepend">
+  <span className="input-group-text" id="address-wrapping">Avastar ID</span>
+  </div>
+
+  <input type="number" className="form-control" placeholder="..." aria-label="Address" aria-describedby="address-wrapping" onChange={this.handleArtToCreditChange} />
+  </div>
+
+
+  <button className="btn btn-primary" onClick={this.handleArtCreditSendClick} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
+
   </div>
   }
+
   {creditsToUse && creditsToUse.value>0 &&
   <div className="p-3 mb-2 bg-info text-white rounded">
 
-  <h1>You have {creditsToUse} {creditsToUse>1?'credits':'credit'} to use! </h1>
-  <h4>When you get to the purchase page you'll be able to use this credit towards a free print or NFC.</h4>
+  <h1>You have {creditsToUse.value} {creditsToUse.value>1?'credits':'credit'} to use! </h1>
+  <h4>When you get to the purchase page you'll be able to use this credit towards a free print.</h4>
 
   <br />
   <br />

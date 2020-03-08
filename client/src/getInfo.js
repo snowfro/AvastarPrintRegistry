@@ -28,6 +28,13 @@ class GetInfo extends React.Component {
 
   }
 
+  getArtCreditsToUse(){
+    const {drizzle} = this.props;
+    const contract = drizzle.contracts.AvastarPrintRegistryMinter;
+    let artCreditsToUseDataKey = contract.methods['artIdToCreditsToSpend'].cacheCall(this.props.avastarId);
+    this.props.setArtCreditsToUse(artCreditsToUseDataKey);
+  }
+
   handleClick(){
   this.props.handleWelcomeChange(-1);
   }
@@ -43,7 +50,9 @@ class GetInfo extends React.Component {
 
     this.setState({stage: this.state.stage+1});
     if (this.state.stage===2){
-      this.getSVG();}
+      this.getSVG();
+      this.getArtCreditsToUse();
+    }
 
     if (this.state.stage>2){
 
@@ -94,11 +103,20 @@ render(){
 
 const {drizzleState} = this.props;
 const contract = drizzleState.contracts.AvastarPrintRegistry;
+const minter = drizzleState.contracts.AvastarPrintRegistryMinter;
 console.log(drizzleState);
 console.log('SVGKEY '+this.props.tokenSVG);
 console.log('avastar '+this.props.avastarId);
 console.log('credits to use: '+this.props.creditsToUseKey);
 console.log('credits to give: '+this.props.creditsToGiveKey);
+console.log('art credits to use key: '+ this.props.artCreditsToUse);
+
+if (minter.artIdToCreditsToSpend[this.props.artCreditsToUse]){
+  console.log('art credits: '+ minter.artIdToCreditsToSpend[this.props.artCreditsToUse].value);
+}
+
+
+
 
 
   return (
@@ -111,7 +129,7 @@ console.log('credits to give: '+this.props.creditsToGiveKey);
     <br />
     <p>Please fill out your contact details below. Note that the contact method you provide will be included in your purchase transaction and recorded on the blockchain.
     This will be our only way to contact you in case we need clarification about your order.</p>
-    <small id="contactMethodHelp" class="form-text text-muted">Possible contact methods include e-mail address, twitter handle, or <b>full</b> Discord handle (including numerical ID).</small>
+    <small id="contactMethodHelp" className="form-text text-muted">Possible contact methods include e-mail address, twitter handle, or <b>full</b> Discord handle (including numerical ID).</small>
 
     <div className="input-group mb-3">
       <div className="input-group-prepend">
@@ -211,11 +229,14 @@ console.log('credits to give: '+this.props.creditsToGiveKey);
 
                   />
                   </div>}
+            {minter.artIdToCreditsToSpend[this.props.artCreditsToUse] && minter.artIdToCreditsToSpend[this.props.artCreditsToUse].value>0 &&
+          <div className='alert alert-success'>
+            <h4>This Avastar has a print credit! <br /> You will not pay for this print.</h4>
+          </div>
 
+            }
         </div>
       }
-
-    <br />
     <button onClick = {this.handleBackClick} disabled={this.state.stage>1?false:true} className={this.state.stage>1?null:"hidden"}>Previous Step</button><button onClick = {this.handleNextClick} disabled={!this.props.avastarId&&this.state.stage>1?true:false} >{this.state.stage>2?"CONFIRM":"Next Step"}</button>
     <br />
     <br />

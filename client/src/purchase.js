@@ -68,8 +68,9 @@ console.log("type: "+purchaseType + " Func: "+ purchaseFunc);
 
   const creditPurchaseConcat = purchaseFunc + " | " + this.props.contactMethod;
   const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
+  const artCreditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.artIdToCreditsToSpend[this.props.artCreditsToUse];
 
-  if (creditsToUse && creditsToUse.value>0){
+  if ((creditsToUse && creditsToUse.value>0)||(artCreditsToUse && artCreditsToUse.value>0)){
     this.setState({creditSale:true})
     stackId = contract2.methods['mint'].cacheSend(this.props.avastarId,creditPurchaseConcat, {
       from: drizzleState.accounts[0],
@@ -120,7 +121,7 @@ getTokenId(){
            body: JSON.stringify({
              nft:"Avastar",
              contactMethod:this.props.contactMethod,
-             artId:this.props.artId,
+             artId:this.props.avastarId,
              purchaseType:this.state.purchaseType,
              shipType:this.state.shipType,
              creditSale:true,
@@ -154,7 +155,7 @@ getTokenId(){
            body: JSON.stringify({
              nft:"Avastar",
              contactMethod:this.props.contactMethod,
-             artId:this.props.artId,
+             artId:this.props.avastarId,
              purchaseType:this.state.purchaseType,
              shipType:this.state.shipType,
              creditSale:false,
@@ -215,9 +216,14 @@ getTokenId(){
     const {drizzleState} = this.props;
     const contract = drizzleState.contracts.AvastarPrintRegistry;
     const creditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.addressToCreditsToSpend[this.props.creditsToUseKey];
+    const artCreditsToUse = this.props.drizzleState.contracts.AvastarPrintRegistryMinter.artIdToCreditsToSpend[this.props.artCreditsToUse];
 
     if(creditsToUse){
       console.log('ctu: '+creditsToUse.value);
+    }
+
+    if(artCreditsToUse){
+      console.log('art ctu: '+artCreditsToUse.value);
     }
 
     return (
@@ -257,7 +263,7 @@ getTokenId(){
       <div>
       <h4>Shiping Type: {this.state.shipType}</h4>
       <br />
-      <h4>Total: {creditsToUse && creditsToUse.value>0 ? 'FRE' : priceObject[this.findPrice()] && (web3.utils.fromWei(priceObject[this.findPrice()].value.toString(), 'ether'))}Ξ</h4>
+      <h4>Total: {((creditsToUse && creditsToUse.value>0)||(artCreditsToUse && artCreditsToUse.value>0)) ? 'FRE' : priceObject[this.findPrice()] && (web3.utils.fromWei(priceObject[this.findPrice()].value.toString(), 'ether'))}Ξ</h4>
       <br />
       <div className="alert alert-secondary" role="alert">
       <b>Contact Method: {this.props.contactMethod}</b>
