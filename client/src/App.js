@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 import WelcomeScreen from "./welcomeScreen";
 import GetInfo from "./getInfo";
@@ -9,7 +8,24 @@ import SetConstants from "./setConstants";
 class App extends Component {
   constructor(props){
   super(props);
-  this.state = { loading: true, drizzleState: null, welcomeState: 0, contactMethod: '', avastarId:null, tokenSVG:null, creditsToUseKey:null, creditsToGiveKey:null, creditToAddress:null, owner1Key:null, owner2Key:null, creditManagerCreditsToGive:null, creditManagerAddressToCredit:null, tokensOfOwnerKey:null};
+  this.state = {
+    loading: true,
+    drizzleState: null,
+    welcomeState: 0,
+    contactMethod: '',
+    address:{firstName:'', lastName:'', address1:'', address2:'', city:'', stateProv:'', zip:'', country:''},
+    avastarId:null,
+    tokenSVG:null,
+    creditsToUseKey:null,
+    creditsToGiveKey:null,
+    creditToAddress:null,
+    owner1Key:null,
+    owner2Key:null,
+    creditManagerCreditsToGive:null,
+    creditManagerAddressToCredit:null,
+    tokensOfOwnerKey:null
+  };
+
   this.handleWelcomeChange = this.handleWelcomeChange.bind(this);
   this.addContactMethod = this.addContactMethod.bind(this);
   this.setAvastarId = this.setAvastarId.bind(this);
@@ -22,6 +38,8 @@ class App extends Component {
   this.setCreditManagerCreditsToGive = this.setCreditManagerCreditsToGive.bind(this);
   this.setCreditManagerAddressToCredit = this.setCreditManagerAddressToCredit.bind(this);
   this.setTokensOfOwnerKey = this.setTokensOfOwnerKey.bind(this);
+  this.handleAddressInput = this.handleAddressInput.bind(this);
+
 }
   componentDidMount() {
 
@@ -78,15 +96,20 @@ setTokensOfOwnerKey(value){
 }
 
 handleWelcomeChange(value){
+  window.scrollTo(0, 0);
   const newWelcomeState = this.state.welcomeState+value;
   this.setState({welcomeState:newWelcomeState});
   if (this.state.welcomeState===2){
-    this.setState({contactMethod: '', avastarId: null});
+    this.setState({avastarId: null});
   }
 }
 
 addContactMethod(contactMethod){
   this.setState({contactMethod:contactMethod});
+}
+
+handleAddressInput(type, value){
+  this.setState(state => (state.address[type] = value));
 }
 
 setAvastarId(avastarId){
@@ -150,6 +173,8 @@ render(){
       creditsToGiveKey = {this.state.creditsToGiveKey}
       owner1Key = {this.state.owner1Key}
       owner2Key = {this.state.owner2Key}
+      address = {this.state.address}
+      handleAddressInput = {this.handleAddressInput}
 
     />
   </div>
@@ -169,6 +194,7 @@ render(){
     owner1Key = {this.state.owner1Key}
     owner2Key = {this.state.owner2Key}
     tokensOfOwnerKey = {this.state.tokensOfOwnerKey}
+    address = {this.state.address}
     />
     </div>
   )

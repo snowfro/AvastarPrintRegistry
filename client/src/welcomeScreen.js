@@ -2,8 +2,6 @@ import React from "react";
 
 import Welcome from "./welcome";
 
-import PriceList from "./priceList";
-
 class WelcomeScreen extends React.Component {
   constructor(props){
     super(props);
@@ -14,10 +12,6 @@ class WelcomeScreen extends React.Component {
     this.handleCreditSendClick2 = this.handleCreditSendClick2.bind(this);
     this.handleCreditManagerAddressChange = this.handleCreditManagerAddressChange.bind(this);
     this.handleCreditManagerCreditsToGive = this.handleCreditManagerCreditsToGive.bind(this);
-
-  }
-
-  handleGiveToken(){
 
   }
 
@@ -92,60 +86,91 @@ console.log('isOwner? '+isOwner);
 console.log('to: '+this.props.creditToAddress);
 
 
-  return(
-    <div>
+return(
+
+<div className="container mt-5">
+<div className="jumbotron">
+  <div>
+  <div >
+  {isOwner &&
+    <div className="p-3 mb-2 bg-info text-white rounded">
     <div >
-    {isOwner &&
-      <div style = {{background:"cyan"}}>
 
-      <h1>Assign Credits to Manager</h1>
-      <br />
-      <input type="text"  placeholder = "Manager Address" onChange={this.handleCreditManagerAddressChange} />
-      <input type="number"  placeholder = "Credits to give" style = {{width:50}} onChange={this.handleCreditManagerCreditsToGive} />
-      <button className="bigButton2" onClick={this.handleCreditSendClick2} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
-      <br />
-      <br />
-      </div>
-    }
-    {creditsToGive && creditsToGive.value>0 &&
-    <div style = {{background:"cyan"}}>
-
-    <h1>You have credits to give!</h1>
-    <h4>Paste recipient address below and click "Send"</h4>
-
-    <br />
-    <input type="text" id="addressField" onChange={this.handleAddressChange} /><button className="bigButton2" onClick={this.handleCreditSendClick} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
-    <br />
-    <br />
-    </div>
-    }
-    {creditsToUse && creditsToUse.value>0 &&
-    <div style = {{background:"cyan"}}>
-
-    <h1>You have a credit to use! </h1>
-    <h4>When you get to the purchase page you'll be able to use this credit towards a free print or NFC.</h4>
-
-    <br />
+    <h1>Assign Credits to Manager</h1>
     <br />
 
-
-    </div>
-    }
+    <div className="input-group flex-nowrap">
+    <div className="input-group-prepend">
+    <span className="input-group-text" id="address-wrapping">Manager Address</span>
     </div>
 
-    <Welcome
-    drizzle={this.props.drizzle}
-    drizzleState={this.props.drizzleState}
-    />
+    <input type="text" className="form-control" placeholder="0x..." aria-label="Manager Address" aria-describedby="address-wrapping" onChange={this.handleCreditManagerAddressChange} />
+    </div>
 
-    <button onClick = {this.handleClick}>Click Here To Get Started</button>
-    <PriceList
-    drizzle={this.props.drizzle}
-    drizzleState={this.props.drizzleState}
-    />
+    <div className="input-group flex-nowrap">
+    <div className="input-group-prepend">
+    <span className="input-group-text" id="credits-wrapping">Credits</span>
+    </div>
+
+    <input type="number" className="form-control" placeholder="Credits" aria-label="Credits" aria-describedby="credits-wrapping" onChange={this.handleCreditManagerCreditsToGive} />
+    </div>
+
+
+
+    <button className="btn btn-primary" onClick={this.handleCreditSendClick2} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
+    <br />
+    <br />
 
     </div>
-  )
+    </div>
+  }
+  {creditsToGive && creditsToGive.value>0 &&
+  <div className="p-3 mb-2 bg-info text-white rounded">
+
+  <h1>You have {creditsToGive} {creditsToGive>1?'credits':'credit'} to give!</h1>
+  <h4>Paste recipient address below and click "Send"</h4>
+
+  <br />
+  <div className="input-group flex-nowrap">
+  <div className="input-group-prepend">
+  <span className="input-group-text" id="address-wrapping">Recipient Address</span>
+  </div>
+
+  <input type="text" className="form-control" placeholder="0x..." aria-label="Address" aria-describedby="address-wrapping" onChange={this.handleAddressChange} />
+  </div>
+
+
+  <button className="btn btn-primary" onClick={this.handleCreditSendClick} disabled = {status==="pending"?true:false}>{!status?'Send':status==="success"?'Success! Send another.':status}</button>
+  <br />
+  <br />
+  </div>
+  }
+  {creditsToUse && creditsToUse.value>0 &&
+  <div className="p-3 mb-2 bg-info text-white rounded">
+
+  <h1>You have {creditsToUse} {creditsToUse>1?'credits':'credit'} to use! </h1>
+  <h4>When you get to the purchase page you'll be able to use this credit towards a free print or NFC.</h4>
+
+  <br />
+  <br />
+
+
+  </div>
+  }
+  </div>
+  <Welcome
+  drizzle={this.props.drizzle}
+  drizzleState={this.props.drizzleState}
+
+  />
+  <div className="text-center mb-5 pb-5">
+    <button onClick = {this.handleClick} className="btn btn-primary btn-lg text-center">Click Here To Get Started</button>
+  </div>
+  </div>
+</div>
+</div>
+
+)
 }
 }
 
