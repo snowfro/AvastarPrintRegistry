@@ -260,7 +260,7 @@ pragma solidity ^0.5.0;
 interface AvastarPrintRegistryInterface {
 
     function mint(uint256 _avastarId, string calldata _nfc) external returns (uint256 _tokenId);
-    function pricePerPrintInWei() external view returns (uint256 _pricePerPrintInWei);
+    function pricePerPrintIntlShipInWei() external view returns (uint256 _pricePerPrintIntlShipInWei);
 }
 
 pragma solidity ^0.5.0;
@@ -333,7 +333,7 @@ contract AvastarPrintRegistryMinter  {
 
     function giveArtCredit(uint256 _artId) public payable {
         uint creditsToGive = managerAddressToCreditsToGive[msg.sender];
-        require(creditsToGive>0 || msg.sender==owner1 || msg.sender==printerAddress || msg.value==aprContract.pricePerPrintInWei(), "You must have permission!");
+        require(creditsToGive>0 || msg.sender==owner1 || msg.sender==printerAddress || msg.value==aprContract.pricePerPrintIntlShipInWei(), "You must have permission!");
         artIdToCreditsToSpend[_artId] ++;
 
         if (msg.value>0) {
@@ -349,7 +349,7 @@ contract AvastarPrintRegistryMinter  {
 
     function giveAddressCredit(address _recipient) public payable {
         uint creditsToGive = managerAddressToCreditsToGive[msg.sender];
-        require(creditsToGive>0 || msg.sender==owner1 || msg.sender==printerAddress || msg.value==aprContract.pricePerPrintInWei(), "You must have permission!");
+        require(creditsToGive>0 || msg.sender==owner1 || msg.sender==printerAddress || msg.value==aprContract.pricePerPrintIntlShipInWei(), "You must have permission!");
         addressToCreditsToSpend[_recipient] ++;
 
         if (msg.value>0) {

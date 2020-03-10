@@ -72439,12 +72439,12 @@
         }
       },
       "links": {},
-      "address": "0x99369b56eb5AE80F5A0efB67e4BD11FA4e4091b9",
-      "transactionHash": "0x74bcce98457773baeee6343313593149d6e5961fd5306ce270732fe5792eb379"
+      "address": "0xC6De7D31BcdE7066f4E99E5267a375B1E2bF8f5f",
+      "transactionHash": "0x4b3239b27c0cc38a0aa95a5b7a31d5f2e90f2dfcb4a9bfea1c4cd33cf21cf7de"
     }
   },
   "schemaVersion": "3.0.22",
-  "updatedAt": "2020-03-08T04:39:23.322Z",
+  "updatedAt": "2020-03-10T02:23:50.670Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

@@ -70979,7 +70979,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.22",
-  "updatedAt": "2020-03-08T04:38:52.056Z",
+  "updatedAt": "2020-03-10T02:23:01.740Z",
   "devdoc": {
     "details": "WhitelistAdmins are responsible for assigning and removing Whitelisted accounts.",
     "methods": {},

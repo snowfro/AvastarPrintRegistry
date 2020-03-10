@@ -28,7 +28,7 @@ class Welcome extends React.Component {
                   your wallet <i>that you send the funds from</i>.
               </div>
               <div className="alert alert-danger">
-              <p>The Print Registry Store will reject your transaction if you do not initiate the transaction from the address that owns the NFT. </p>
+              The Print Registry Store will reject your transaction if you do not initiate the transaction from the address that owns the NFT.
               </div>
               <div className="alert alert-warning">
               Since your transaction is being handled directly through a smart contract, a contact method will be included in the blockchain transaction

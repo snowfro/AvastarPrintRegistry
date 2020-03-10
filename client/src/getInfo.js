@@ -199,11 +199,11 @@ if (minter.artIdToCreditsToSpend[this.props.artCreditsToUse]){
     </div>
 
     <br />
-    <div className="alert alert-warning">
-    <p>Please take an extra moment to verify your address and contact method before proceeding. </p>
+    <div className="alert alert-info">
+    Please take an extra moment to verify your address and contact method before proceeding.
     </div>
     <div className="alert alert-danger">
-    <p><b>We will use the above information solely for shipping purposes and will not share the information under any circumstances.</b></p>
+    <b>We will use the above information solely for shipping purposes and will not share the information under any circumstances.</b>
     </div>
 
     {this.state.stage>1 &&
@@ -230,8 +230,8 @@ if (minter.artIdToCreditsToSpend[this.props.artCreditsToUse]){
                   />
                   </div>}
             {minter.artIdToCreditsToSpend[this.props.artCreditsToUse] && minter.artIdToCreditsToSpend[this.props.artCreditsToUse].value>0 &&
-          <div className='alert alert-success'>
-            <h4>This Avastar has a print credit! <br /> You will not pay for this print.</h4>
+          <div className='alert alert-success w-50 border-white'>
+            <h4>This Avastar has a free print credit!</h4>
           </div>
 
             }
